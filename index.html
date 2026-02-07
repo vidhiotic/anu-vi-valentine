@@ -15,17 +15,15 @@
     --accent2:#ffcf4a;
     --brown:#6b3f1d;
 
-    /* responsive sizing */
     --envelopeW: min(92vw, 420px);
-    --envelopeH: clamp(220px, 34vh, 280px);
-    --cardW: min(90vw, 380px);
+    --envelopeH: clamp(220px, 34vh, 290px);
+    --cardW: min(92vw, 390px);
   }
-
   *{ box-sizing:border-box; }
 
   body{
     margin:0;
-    min-height:100svh;              /* mobile safe */
+    min-height:100svh;
     display:grid;
     place-items:center;
     font-family:'Poppins', sans-serif;
@@ -43,10 +41,10 @@
   }
   .float-heart{
     position:absolute;
-    font-size:46px;
     opacity:.42;
     animation: floatUp linear forwards;
     filter: drop-shadow(0 10px 18px rgba(0,0,0,.10));
+    will-change: transform, opacity;
   }
   @keyframes floatUp{
     from{ transform:translateY(110vh) scale(.9) rotate(0deg); opacity:0; }
@@ -59,7 +57,7 @@
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:50;
+    z-index:80;
   }
   .burst span{
     position:absolute;
@@ -74,7 +72,7 @@
 
   .wrap{
     z-index:2;
-    width:min(680px, 96vw);
+    width:min(720px, 96vw);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -83,48 +81,109 @@
     text-align:center;
   }
 
+  /* Heading */
+  .head{
+    position:relative;
+    display:grid;
+    place-items:center;
+    gap:6px;
+    padding:16px 12px 14px;
+    /* ✅ extra safe space so stickers never cover text */
+    padding-left: 56px;
+    padding-right: 56px;
+  }
+
+  /* ✅ subtle paper strip behind heading so it's always readable */
+  .head::before{
+    content:"";
+    position:absolute;
+    inset:6px 22px;
+    background: rgba(255,255,255,.55);
+    border:2px dashed rgba(107,63,29,.18);
+    border-radius:22px;
+    box-shadow:0 14px 26px rgba(107,63,29,.12);
+    z-index:0;
+    backdrop-filter: blur(4px);
+  }
+
   .title{
+    position:relative;
+    z-index:2;
     font-family:'Pacifico', cursive;
-    font-size:clamp(26px, 5.6vw, 34px);
+    font-size:clamp(26px, 6vw, 36px);
     margin:0;
     color: var(--brown);
     transition:.35s ease;
     line-height:1.15;
+    text-shadow: 0 10px 18px rgba(107,63,29,.10);
   }
   .subtitle{
+    position:relative;
+    z-index:2;
     margin:0;
     font-weight:700;
-    font-size:clamp(13px, 3.4vw, 16px);
+    font-size:clamp(13px, 3.6vw, 16px);
     color: rgba(107,63,29,.85);
     transition:.35s ease;
+    max-width: 36ch;
   }
+
+  /* 🌻🌸 Stickers around heading (moved OUTSIDE the text area) */
+  .headSticker{
+    position:absolute;
+    z-index:1;                 /* behind text */
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,.14));
+    opacity:.96;
+    pointer-events:none;
+    animation: headBob 2.6s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes headBob{
+    0%,100%{ transform: translateY(0) rotate(-2deg); }
+    50%{ transform: translateY(-8px) rotate(2deg); }
+  }
+
+  /* ✅ placed around the corners (safe margins) */
+  .hsTL{ left:-18px; top:-20px; font-size:clamp(44px, 11vw, 80px); }
+  .hsTR{ right:-18px; top:-20px; font-size:clamp(44px, 11vw, 80px); animation-delay:.25s; }
+  .hsBL{ left:-18px; bottom:-26px; font-size:clamp(40px, 10vw, 72px); animation-delay:.6s; }
+  .hsBR{ right:-18px; bottom:-26px; font-size:clamp(40px, 10vw, 72px); animation-delay:1.0s; }
+
+  /* small extra cute ones */
+  .hsTopMid{ left:50%; top:-28px; transform:translateX(-50%); font-size:clamp(28px, 7vw, 52px); animation-delay:1.3s; }
+  .hsSideL{ left:10px; top:18px; font-size:clamp(22px, 6vw, 40px); opacity:.85; animation-delay:1.55s; }
+  .hsSideR{ right:10px; top:18px; font-size:clamp(22px, 6vw, 40px); opacity:.85; animation-delay:1.8s; }
 
   .stage{
     position:relative;
     width:100%;
-    height: clamp(440px, 64vh, 560px);
+    height: clamp(440px, 66vh, 600px);
     display:grid;
     place-items:center;
     padding-top:6px;
   }
 
-  /* Sunflowers with animation */
-  .sunflower{
+  /* Flowers around envelope */
+  .flower{
     position:absolute;
-    font-size:clamp(62px, 12vw, 92px);
-    opacity:.96;
-    filter: drop-shadow(0 10px 18px rgba(0,0,0,.16));
     pointer-events:none;
-    animation: sunflowerBob 2.8s ease-in-out infinite;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,.16));
+    opacity:.96;
+    animation: flowerBob 2.8s ease-in-out infinite;
+    will-change: transform;
   }
-  .sunflower.s2{ animation-delay:.3s; }
-  .sunflower.s3{ animation-delay:.7s; }
-  .sunflower.s4{ animation-delay:1.0s; }
+  .flower.s2{ animation-delay:.25s; }
+  .flower.s3{ animation-delay:.6s; }
+  .flower.s4{ animation-delay:1s; }
+  .flower.s5{ animation-delay:1.25s; }
+  .flower.s6{ animation-delay:1.55s; }
 
-  @keyframes sunflowerBob{
+  @keyframes flowerBob{
     0%,100%{ transform: translateY(0) rotate(-2deg); }
     50%{ transform: translateY(-8px) rotate(2deg); }
   }
+
+  .sunflower{ font-size:clamp(64px, 12.5vw, 104px); }
 
   /* Envelope */
   .envelope{
@@ -157,7 +216,7 @@
     pointer-events:none;
   }
 
-  /* ✨ SUPER CUTE FLAP ANIMATION ✨ */
+  /* Flap animation */
   .flap{
     position:absolute;
     top:calc(-0.04 * var(--envelopeH));
@@ -169,7 +228,6 @@
     border-width: calc(0.52 * var(--envelopeH)) calc(0.50 * var(--envelopeW)) 0 calc(0.50 * var(--envelopeW));
     border-color:#ffd978 transparent transparent transparent;
     z-index:6;
-
     transform-origin: 50% 0%;
     transform: rotateX(0deg);
     transition: transform .85s cubic-bezier(.2,.9,.2,1);
@@ -189,13 +247,13 @@
   .seal{
     position:absolute;
     bottom:clamp(16px, 3.4vh, 24px);
-    width:clamp(48px, 10vw, 56px);
-    height:clamp(48px, 10vw, 56px);
+    width:clamp(48px, 10vw, 58px);
+    height:clamp(48px, 10vw, 58px);
     background: radial-gradient(circle at 30% 30%, #ffe07a, var(--accent));
     border-radius:50%;
     display:grid;
     place-items:center;
-    font-size:clamp(20px, 4.6vw, 24px);
+    font-size:clamp(20px, 4.6vw, 26px);
     box-shadow:0 10px 20px rgba(0,0,0,.18);
     animation:pulse 1.6s infinite;
     z-index:7;
@@ -210,38 +268,69 @@
     position:absolute;
     left:50%;
     bottom:clamp(10px, 2.2vh, 18px);
-    transform:translateX(-50%) translateY(380px);
+    transform:translateX(-50%) translateY(420px);
     width:var(--cardW);
     background:#fff;
     border-radius:22px;
-    padding:16px 16px 20px;
+    padding:16px 16px 18px;
     box-shadow:0 14px 30px rgba(107,63,29,.22);
     transition:.9s cubic-bezier(.2,.9,.2,1);
     text-align:center;
     border:2px solid rgba(244,180,0,.28);
     z-index:20;
+    overflow:hidden;
   }
   .open .card{ transform:translateX(-50%) translateY(0); }
 
+  /* ✅ Sunflower "pattern" background (little sunflowers) */
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:-22px;
+    background:
+      radial-gradient(circle at 10% 18%, rgba(244,180,0,.22) 0 6px, transparent 7px),
+      radial-gradient(circle at 22% 34%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 35% 16%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 48% 30%, rgba(244,180,0,.22) 0 6px, transparent 7px),
+      radial-gradient(circle at 62% 18%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 76% 34%, rgba(244,180,0,.22) 0 6px, transparent 7px),
+      radial-gradient(circle at 88% 16%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 14% 62%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 30% 78%, rgba(244,180,0,.22) 0 6px, transparent 7px),
+      radial-gradient(circle at 46% 66%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 60% 80%, rgba(244,180,0,.22) 0 6px, transparent 7px),
+      radial-gradient(circle at 78% 66%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 90% 78%, rgba(244,180,0,.22) 0 6px, transparent 7px),
+      radial-gradient(circle at 22% 52%, rgba(244,180,0,.18) 0 5px, transparent 6px),
+      radial-gradient(circle at 52% 52%, rgba(244,180,0,.18) 0 5px, transparent 6px),
+      radial-gradient(circle at 82% 52%, rgba(244,180,0,.18) 0 5px, transparent 6px);
+    opacity:.92;
+    z-index:0;
+    pointer-events:none;
+  }
+  .card > *{ position:relative; z-index:1; }
+
   .q{
     font-family:'Pacifico', cursive;
-    font-size:clamp(20px, 4.8vw, 24px);
+    font-size:clamp(20px, 4.9vw, 25px);
     margin:4px 0 14px;
     color: var(--brown);
     line-height:1.15;
+    padding:10px 12px;
+    border-radius:18px;
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 10px 18px rgba(107,63,29,.10);
   }
 
-  .btns{
-    position:relative;
-    height:96px;
-  }
+  .btns{ position:relative; height:100px; }
 
   button{
     padding:12px 18px;
     border-radius:999px;
     border:none;
     font-weight:900;
-    font-size:clamp(14px, 3.6vw, 15px);
+    font-size:clamp(14px, 3.7vw, 15px);
     cursor:pointer;
     position:absolute;
     font-family:'Poppins', sans-serif;
@@ -251,28 +340,33 @@
   .yes{
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: var(--brown);
-    left:16px;
+    left:14px;
     bottom:8px;
   }
 
   .no{
     background:#f3f3f3;
     color:#777;
-    right:16px;
+    right:14px;
     bottom:8px;
   }
 
   .result{
     margin-top:10px;
-    font-weight:800;
+    font-weight:900;
     color: var(--brown);
     min-height:24px;
     font-size:clamp(13px, 3.4vw, 15px);
+    padding:8px 10px;
+    border-radius:14px;
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 10px 18px rgba(107,63,29,.10);
   }
 
   .dance{
     display:none;
-    font-size:clamp(44px, 10vw, 56px);
+    font-size:clamp(44px, 10vw, 58px);
     margin:10px 0 8px;
     animation:dance 1.2s infinite alternate;
   }
@@ -297,36 +391,84 @@
     width:fit-content;
     max-width:100%;
   }
-  .closeBtn:active{
-    transform: translateY(1px) scale(.99);
-  }
+  .closeBtn:active{ transform: translateY(1px) scale(.99); }
 
-  /* Mobile-only tweaks */
+  /* 🎵 Music button */
+  .musicBtn{
+    position:fixed;
+    right:12px;
+    top:12px;
+    z-index:90;
+    border:none;
+    border-radius:999px;
+    padding:10px 12px;
+    font-weight:900;
+    cursor:pointer;
+    background:#fffaf0;
+    color: var(--brown);
+    box-shadow: 0 10px 18px rgba(107,63,29,.16);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Poppins', sans-serif;
+  }
+  .musicDot{
+    width:10px;height:10px;border-radius:50%;
+    background:#c8c8c8;
+  }
+  .musicDot.on{ background:#33c24d; }
+  .musicBtn small{ font-weight:800; opacity:.8; }
+
+  /* Mobile polish (keep elements, just tighter) */
   @media (max-width: 420px){
-    .stage{ height: 64vh; }
-    .sunflower.s1{ left:-6px !important; top:78px !important; }
-    .sunflower.s2{ right:-10px !important; top:98px !important; }
-    .sunflower.s3{ left:10px !important; bottom:20px !important; }
-    .sunflower.s4{ right:10px !important; bottom:20px !important; }
-    .btns{ height:102px; }
+    .wrap{ padding-top:12px; gap:8px; }
+    .stage{ height: 66vh; }
+    .subtitle{ max-width: 30ch; }
+    .btns{ height:108px; }
+    .musicBtn{ top:10px; right:10px; padding:9px 10px; }
+    .musicBtn span{ display:none; }
+    .head{ padding-left: 54px; padding-right: 54px; }
+    .hsSideL, .hsSideR{ display:none; } /* keep text super clear on small screens */
   }
 </style>
 </head>
 
 <body>
 
+<audio id="bgm" src="Until_I_Found_You.mp3" preload="auto" loop></audio>
+
+<button class="musicBtn" id="musicBtn" aria-label="Toggle music">
+  <div class="musicDot" id="musicDot"></div>
+  <span>Music</span>
+  <small id="musicLabel">Off</small>
+</button>
+
 <div class="float-layer" id="floatLayer"></div>
 <div class="burst" id="burst"></div>
 
 <div class="wrap">
-  <h1 class="title" id="title">Open the envelope 💌</h1>
-  <p class="subtitle" id="subtitle">Little surprise inside for you 🥹🌻</p>
+  <div class="head">
+    <!-- ✅ Stickers positioned so text is always visible -->
+    <div class="headSticker hsTL">🌻</div>
+    <div class="headSticker hsTR">🌻</div>
+    <div class="headSticker hsBL">🌸</div>
+    <div class="headSticker hsBR">🌷</div>
+    <div class="headSticker hsTopMid">🌻</div>
+    <div class="headSticker hsSideL">🌸</div>
+    <div class="headSticker hsSideR">🌷</div>
+
+    <h1 class="title" id="title">Open the envelope 💌</h1>
+    <p class="subtitle" id="subtitle">Little surprise inside for you 🥹🌻</p>
+  </div>
 
   <div class="stage">
-    <div class="sunflower s1" style="left:-10px; top:70px;">🌻</div>
-    <div class="sunflower s2" style="right:-20px; top:90px;">🌻</div>
-    <div class="sunflower s3" style="left:30px; bottom:22px;">🌻</div>
-    <div class="sunflower s4" style="right:30px; bottom:22px;">🌻</div>
+    <!-- 🌻 Multiple big sunflowers around the envelope -->
+    <div class="flower sunflower s1" style="left:-18px; top:66px;">🌻</div>
+    <div class="flower sunflower s2" style="right:-28px; top:86px;">🌻</div>
+    <div class="flower sunflower s3" style="left:22px; bottom:14px;">🌻</div>
+    <div class="flower sunflower s4" style="right:22px; bottom:14px;">🌻</div>
+    <div class="flower sunflower s5" style="left:10px; top:210px; font-size:clamp(52px, 11vw, 92px);">🌻</div>
+    <div class="flower sunflower s6" style="right:10px; top:218px; font-size:clamp(52px, 11vw, 92px);">🌻</div>
 
     <div class="envelope" id="envelope">
       <div class="flap" id="flap"></div>
@@ -364,26 +506,57 @@
   const floatLayer = document.getElementById("floatLayer");
   const burst = document.getElementById("burst");
 
+  /* 🎵 Music controls */
+  const bgm = document.getElementById("bgm");
+  const musicBtn = document.getElementById("musicBtn");
+  const musicDot = document.getElementById("musicDot");
+  const musicLabel = document.getElementById("musicLabel");
+  let musicOn = false;
+
+  function setMusicUI(on){
+    musicOn = on;
+    musicDot.classList.toggle("on", on);
+    musicLabel.textContent = on ? "On" : "Off";
+  }
+
+  async function toggleMusic(forceOn = null){
+    const wantOn = (forceOn === null) ? !musicOn : forceOn;
+    try{
+      if(wantOn){
+        bgm.volume = 0.35;
+        await bgm.play();
+        setMusicUI(true);
+      }else{
+        bgm.pause();
+        setMusicUI(false);
+      }
+    }catch(err){
+      setMusicUI(false);
+    }
+  }
+  musicBtn.addEventListener("click", () => toggleMusic());
+
   /* Floating hearts loop */
   setInterval(() => {
     const h = document.createElement("div");
     h.className = "float-heart";
     h.textContent = ["💛","💖","💘","💕","🫶"][Math.floor(Math.random()*5)];
     h.style.left = Math.random()*100 + "vw";
-    h.style.fontSize = (28 + Math.random()*44) + "px";       // better on mobile
+    h.style.fontSize = (28 + Math.random()*44) + "px";
     h.style.animationDuration = (5 + Math.random()*6) + "s";
     floatLayer.appendChild(h);
     h.addEventListener("animationend",()=>h.remove());
   }, 700);
 
-  // Open envelope (tap friendly)
+  // Open envelope + start music
   envelope.addEventListener("click", () => {
     envelope.classList.add("open");
-    title.textContent = "A little love note for you 💛🌻";
+    title.textContent = "A love note is for you 💛🌻";
     subtitle.textContent = "Made with love, only for you 🥹✨";
+    toggleMusic(true);
   });
 
-  /* NO button moves on hover + click (mobile: touchstart) */
+  /* NO button moves */
   function moveNo(){
     noBtn.style.right="auto";
     noBtn.style.bottom="auto";
@@ -402,32 +575,27 @@
     result.textContent="As if NO was ever an option 🤭💕";
     dance.style.display="block";
     closeBtn.style.display="inline-block";
-
     yesBtn.style.display="none";
     noBtn.style.display="none";
-
     bigHeartBurst(window.innerWidth/2, window.innerHeight/2, 14);
   });
 
   /* Close reset */
   closeBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-
     envelope.classList.remove("open");
-
     title.textContent="Open the envelope 💌";
     subtitle.textContent="Little surprise inside for you 🥹🌻";
 
     result.textContent="";
     dance.style.display="none";
     closeBtn.style.display="none";
-
     yesBtn.style.display="inline-block";
     noBtn.style.display="inline-block";
 
     noBtn.style.left="";
     noBtn.style.top="";
-    noBtn.style.right="16px";
+    noBtn.style.right="14px";
     noBtn.style.bottom="8px";
   });
 
@@ -444,6 +612,8 @@
       s.addEventListener("animationend",()=>s.remove());
     }
   }
+
+  setMusicUI(false);
 </script>
 
 </body>
