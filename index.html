@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Valentine Week 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg1:#fff6da;
+    --bg2:#ffe7b3;
+    --accent:#f4b400;
+    --accent2:#ffcf4a;
+    --brown:#6b3f1d;
+    --paper:#fffaf0;
+    --pink:#ff6fa2;
+  }
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100svh;
+    display:grid;
+    place-items:center;
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(135deg,var(--bg1),var(--bg2));
+    overflow:hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* floating hearts background */
+  .float-layer{ position:fixed; inset:0; pointer-events:none; z-index:1; }
+  .float-heart{
+    position:absolute; opacity:.40;
+    animation: floatUp linear forwards;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,.10));
+  }
+  @keyframes floatUp{
+    from{ transform:translateY(110vh) scale(.9) rotate(0deg); opacity:0; }
+    10%{ opacity:.40; }
+    to{ transform:translateY(-130vh) scale(1.25) rotate(360deg); opacity:0; }
+  }
+
+  .wrap{
+    width:min(980px, 94vw);
+    padding:16px 12px 18px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+  }
+
+  h1{
+    font-family:'Pacifico', cursive;
+    margin:0 0 6px;
+    color:var(--brown);
+    font-size:clamp(26px, 6vw, 40px);
+    line-height:1.1;
+  }
+  p{
+    margin:0 0 14px;
+    color:rgba(107,63,29,.85);
+    font-weight:700;
+    font-size:clamp(13px, 3.6vw, 16px);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap:12px;
+    margin-top:12px;
+  }
+  @media (min-width:720px){
+    .grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+  }
+
+  .env{
+    border:none;
+    width:100%;
+    padding:0;
+    background:transparent;
+    cursor:pointer;
+  }
+
+  .envCard{
+    position:relative;
+    width:100%;
+    aspect-ratio: 4 / 3;
+    border-radius:18px;
+    background: linear-gradient(145deg, #fff2c7, #ffe3a0);
+    box-shadow:0 14px 26px rgba(107,63,29,.16);
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.65);
+  }
+
+  .envCard::before{
+    content:"";
+    position:absolute;
+    top:-18%;
+    left:0; right:0;
+    margin:auto;
+    width:0;height:0;
+    border-style:solid;
+    border-width: 52% 50% 0 50%;
+    border-color:#ffd978 transparent transparent transparent;
+    filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
+    transform-origin: 50% 0%;
+    transform: rotateX(0deg);
+    transition: transform .45s ease;
+  }
+  .env:hover .envCard::before{ transform: rotateX(18deg); }
+
+  .seal{
+    position:absolute;
+    left:50%;
+    bottom:14%;
+    transform:translateX(-50%);
+    width:44px;height:44px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #ffe07a, var(--accent));
+    display:grid;
+    place-items:center;
+    box-shadow:0 10px 18px rgba(0,0,0,.16);
+    font-size:20px;
+  }
+
+  .tag{
+    position:absolute;
+    left:10px;
+    top:10px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.72);
+    color:var(--brown);
+    font-weight:900;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    box-shadow:0 10px 18px rgba(107,63,29,.10);
+    backdrop-filter: blur(4px);
+  }
+
+  .status{
+    position:absolute;
+    right:10px;
+    top:10px;
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:12px;
+    box-shadow:0 10px 18px rgba(107,63,29,.10);
+    backdrop-filter: blur(4px);
+  }
+  .status.locked{ background:rgba(255,255,255,.72); color:rgba(107,63,29,.75); }
+  .status.unlocked{ background:rgba(244,180,0,.22); color:var(--brown); border:1px dashed rgba(107,63,29,.25); }
+
+  .dayName{
+    position:absolute;
+    inset:auto 10px 10px 10px;
+    padding:10px 10px;
+    border-radius:16px;
+    background:rgba(255,255,255,.75);
+    color:var(--brown);
+    font-weight:900;
+    box-shadow:0 10px 18px rgba(107,63,29,.10);
+    backdrop-filter: blur(4px);
+    font-size:clamp(13px, 3.8vw, 14px);
+  }
+
+  /* Music button */
+  .musicBtn{
+    position:fixed;
+    right:12px;
+    top:12px;
+    z-index:200;
+    border:none;
+    border-radius:999px;
+    padding:10px 12px;
+    font-weight:900;
+    cursor:pointer;
+    background:#fffaf0;
+    color: var(--brown);
+    box-shadow: 0 10px 18px rgba(107,63,29,.16);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Poppins', sans-serif;
+  }
+  .musicDot{ width:10px;height:10px;border-radius:50%; background:#c8c8c8; }
+  .musicDot.on{ background:#33c24d; }
+  .musicBtn small{ font-weight:800; opacity:.8; }
+
+  /* Modal */
+  .overlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    place-items:center;
+    background:rgba(0,0,0,.35);
+    z-index:150;
+    padding:16px;
+  }
+  .overlay.show{ display:grid; }
+
+  .modal{
+    width:min(92vw, 440px);
+    background:var(--paper);
+    border-radius:24px;
+    padding:18px 16px 16px;
+    box-shadow:0 22px 50px rgba(0,0,0,.25);
+    border:2px solid rgba(255,255,255,.75);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* little sunflower pattern */
+  .modal::before{
+    content:"";
+    position:absolute;
+    inset:-30px;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 34% 14%, rgba(244,180,0,.18) 0 6px, transparent 7px),
+      radial-gradient(circle at 56% 18%, rgba(244,180,0,.18) 0 6px, transparent 7px),
+      radial-gradient(circle at 78% 14%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 18% 58%, rgba(244,180,0,.18) 0 6px, transparent 7px),
+      radial-gradient(circle at 44% 66%, rgba(244,180,0,.20) 0 6px, transparent 7px),
+      radial-gradient(circle at 66% 58%, rgba(244,180,0,.18) 0 6px, transparent 7px),
+      radial-gradient(circle at 86% 68%, rgba(244,180,0,.20) 0 6px, transparent 7px);
+    opacity:.85;
+    pointer-events:none;
+  }
+  .modal > *{ position:relative; z-index:1; }
+
+  .modal h2{
+    font-family:'Pacifico', cursive;
+    margin:0 0 8px;
+    color:var(--brown);
+    font-size:28px;
+    line-height:1.1;
+  }
+  .modal p{
+    margin:0 0 12px;
+    font-weight:800;
+    color:rgba(107,63,29,.85);
+  }
+
+  .btnRow{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    border:none;
+    padding:12px 16px;
+    border-radius:999px;
+    font-weight:900;
+    cursor:pointer;
+    font-family:'Poppins', sans-serif;
+    box-shadow:0 12px 20px rgba(107,63,29,.14);
+  }
+  .btn.primary{
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color:var(--brown);
+  }
+  .btn.ghost{
+    background:#fff;
+    color:var(--brown);
+    border:2px solid rgba(107,63,29,.18);
+  }
+
+  /* Couple sticker (your image) */
+  .coupleWrap{
+    display:none;
+    margin:10px auto 6px;
+    width:min(320px, 82vw);
+    border-radius:18px;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.85);
+    box-shadow: 0 16px 26px rgba(107,63,29,.14);
+    background: rgba(255,255,255,.55);
+    position:relative;
+  }
+  .coupleWrap img{
+    width:100%;
+    display:block;
+    transform: translateY(0);
+    animation: coupleFloat 2.2s ease-in-out infinite;
+  }
+  @keyframes coupleFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-6px); }
+  }
+
+  /* Gift bubble overlay */
+  .giftBubble{
+    position:absolute;
+    right:10px;
+    top:10px;
+    background: rgba(255,255,255,.82);
+    border-radius:999px;
+    padding:8px 10px;
+    font-weight:900;
+    color:var(--brown);
+    box-shadow: 0 12px 18px rgba(107,63,29,.12);
+    border: 2px dashed rgba(107,63,29,.18);
+    display:flex;
+    gap:6px;
+    align-items:center;
+  }
+
+  .message{
+    display:none;
+    font-weight:900;
+    color:var(--brown);
+    margin-top:8px;
+    padding:10px 12px;
+    border-radius:16px;
+    background: rgba(255,255,255,.82);
+    box-shadow: 0 12px 18px rgba(107,63,29,.10);
+  }
+
+  @media (max-width:420px){
+    .musicBtn span{ display:none; }
+  }
+</style>
+</head>
+
+<body>
+<!-- 🎶 Music file (add this to your repo root OR update path) -->
+<audio id="bgm" src="Until_I_Found_You.mp3" preload="auto" loop></audio>
+
+<button class="musicBtn" id="musicBtn" aria-label="Toggle music">
+  <div class="musicDot" id="musicDot"></div>
+  <span>Music</span>
+  <small id="musicLabel">Off</small>
+</button>
+
+<div class="float-layer" id="floatLayer"></div>
+
+<div class="wrap">
+  <h1>Valentine Week 💌</h1>
+  <p>One envelope a day… unless you’re too curious 😌🌻</p>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h2 id="mTitle">Locked 🔒</h2>
+    <p id="mText"></p>
+
+    <!-- Couple sticker image -->
+    <div class="coupleWrap" id="coupleWrap">
+      <div class="giftBubble" id="giftBubble">🎁 <span id="giftEmoji">🌻</span></div>
+      <!-- Put your image here: assets/couple.png -->
+      <img id="coupleImg" src="assets/couple.png" alt="Cute couple sticker" />
+    </div>
+
+    <div class="message" id="mMsg"></div>
+
+    <div class="btnRow" id="confirmRow">
+      <button class="btn primary" id="yesOpen">Yes, open 😌</button>
+      <button class="btn ghost" id="cancel">Nope, I’ll wait 🥹</button>
+    </div>
+
+    <div class="btnRow" id="closeRow" style="display:none;">
+      <button class="btn ghost" id="close">Close ✨</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 💛 Custom daily messages (feel free to edit names/inside jokes)
+  const week = [
+    { day:7,  name:"Rose Day 🌹",       emoji:"🌹",
+      gift:"🌹",
+      msg:"Rose for you 🌹 because you’ve been my favourite person since the ‘best friends’ era 😌💛" },
+
+    { day:8,  name:"Propose Day 💍",    emoji:"💍",
+      gift:"💍",
+      msg:"Propose day update: I’m still proposing… to the same man… every day 🤭💍" },
+
+    { day:9,  name:"Chocolate Day 🍫",  emoji:"🍫",
+      gift:"🍫",
+      msg:"Chocolate for you 🍫 because you’re sweet… and I’m the drama that balances it 😌😂" },
+
+    { day:10, name:"Teddy Day 🧸",      emoji:"🧸",
+      gift:"🧸",
+      msg:"Teddy day 🧸 = official reminder that your wife is clingier than any teddy 😌🫶" },
+
+    { day:11, name:"Promise Day 🤞",    emoji:"🤞",
+      gift:"🤞",
+      msg:"Promise day 🤞 I promise to love you, annoy you, and steal your hoodie forever. Deal? 🤭" },
+
+    { day:12, name:"Hug Day 🤗",        emoji:"🤗",
+      gift:"🤗",
+      msg:"Hug day 🤗 sending a tight hug now… redeem the real one when you’re near 😚💛" },
+
+    { day:13, name:"Kiss Day 💋",       emoji:"💋",
+      gift:"💋",
+      msg:"Kiss day 💋 warning: too much cuteness inside. Side effects include blushing 😌😂" },
+
+    { day:14, name:"Valentine’s Day 💖",emoji:"💖",
+      gift:"💖",
+      msg:"Valentine’s Day 💖 You’re not just my Valentine… you’re my forever favourite decision 🌻💛" }
+  ];
+
+  const grid = document.getElementById("grid");
+
+  const overlay = document.getElementById("overlay");
+  const mTitle = document.getElementById("mTitle");
+  const mText  = document.getElementById("mText");
+
+  const confirmRow = document.getElementById("confirmRow");
+  const closeRow   = document.getElementById("closeRow");
+
+  const yesOpen = document.getElementById("yesOpen");
+  const cancel  = document.getElementById("cancel");
+  const close   = document.getElementById("close");
+
+  const coupleWrap = document.getElementById("coupleWrap");
+  const mMsg = document.getElementById("mMsg");
+  const giftEmoji = document.getElementById("giftEmoji");
+
+  // 🎶 Music controls
+  const bgm = document.getElementById("bgm");
+  const musicBtn = document.getElementById("musicBtn");
+  const musicDot = document.getElementById("musicDot");
+  const musicLabel = document.getElementById("musicLabel");
+  let musicOn = false;
+
+  function setMusicUI(on){
+    musicOn = on;
+    musicDot.classList.toggle("on", on);
+    musicLabel.textContent = on ? "On" : "Off";
+  }
+  async function toggleMusic(forceOn = null){
+    const wantOn = (forceOn === null) ? !musicOn : forceOn;
+    try{
+      if(wantOn){
+        bgm.volume = 0.35;
+        await bgm.play();
+        setMusicUI(true);
+      }else{
+        bgm.pause();
+        setMusicUI(false);
+      }
+    }catch(e){
+      setMusicUI(false);
+    }
+  }
+  musicBtn.addEventListener("click", () => toggleMusic());
+  setMusicUI(false);
+
+  // Floating hearts background
+  const floatLayer = document.getElementById("floatLayer");
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "float-heart";
+    h.textContent = ["💛","💖","💘","💕","🫶"][Math.floor(Math.random()*5)];
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = (26 + Math.random()*44) + "px";
+    h.style.animationDuration = (5 + Math.random()*6) + "s";
+    floatLayer.appendChild(h);
+    h.addEventListener("animationend",()=>h.remove());
+  }, 750);
+
+  // Date logic (uses user's device date)
+  const now = new Date();
+  const month = now.getMonth(); // Feb = 1
+  const todayDate = now.getDate();
+  const isFeb = (month === 1);
+
+  let selected = null;
+
+  function isUnlocked(item){
+    if(!isFeb) return false;
+    return todayDate >= item.day;
+  }
+
+  function render(){
+    grid.innerHTML = "";
+    week.forEach(item => {
+      const unlocked = isUnlocked(item);
+
+      const btn = document.createElement("button");
+      btn.className = "env";
+      btn.type = "button";
+
+      btn.innerHTML = `
+        <div class="envCard">
+          <div class="tag">${item.emoji} Day</div>
+          <div class="status ${unlocked ? "unlocked" : "locked"}">${unlocked ? "Unlocked" : "Locked 🔒"}</div>
+          <div class="seal">🌻</div>
+          <div class="dayName">${item.name}</div>
+        </div>
+      `;
+
+      btn.addEventListener("click", () => onEnvelopeClick(item));
+      grid.appendChild(btn);
+    });
+  }
+
+  function openModal(){
+    overlay.classList.add("show");
+    overlay.setAttribute("aria-hidden","false");
+  }
+
+  function closeModal(){
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden","true");
+    selected = null;
+
+    // reset
+    coupleWrap.style.display = "none";
+    mMsg.style.display = "none";
+    closeRow.style.display = "none";
+    confirmRow.style.display = "flex";
+  }
+
+  function showConfirm(item){
+    mTitle.textContent = "Locked 🔒";
+    mText.innerHTML = `It’s not <b>${item.name}</b> yet 😌<br>Are you sure you want to open?`;
+    coupleWrap.style.display = "none";
+    mMsg.style.display = "none";
+    confirmRow.style.display = "flex";
+    closeRow.style.display = "none";
+  }
+
+  function showSurprise(item){
+    mTitle.textContent = item.name;
+    mText.textContent  = "A tiny gift from her teddy to his teddy 🥹";
+
+    giftEmoji.textContent = item.gift;
+
+    coupleWrap.style.display = "block";
+    mMsg.textContent = item.msg;
+    mMsg.style.display = "block";
+
+    confirmRow.style.display = "none";
+    closeRow.style.display = "flex";
+
+    // Start music on the first real user interaction (works on mobile)
+    toggleMusic(true);
+  }
+
+  function onEnvelopeClick(item){
+    selected = item;
+    openModal();
+
+    const unlocked = isUnlocked(item);
+    if(unlocked) showSurprise(item);
+    else showConfirm(item);
+  }
+
+  yesOpen.addEventListener("click", () => {
+    if(!selected) return;
+    showSurprise(selected);
+  });
+
+  cancel.addEventListener("click", closeModal);
+  close.addEventListener("click", closeModal);
+
+  overlay.addEventListener("click", (e) => {
+    if(e.target === overlay) closeModal();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if(e.key === "Escape" && overlay.classList.contains("show")) closeModal();
+  });
+
+  render();
+</script>
+</body>
+</html>
