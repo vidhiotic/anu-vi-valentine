@@ -80,6 +80,7 @@ body{
   padding:14px 12px 18px;
   text-align:center;
 }
+
 .gifMsg{
   font-family:'Pacifico', cursive;
   font-size:clamp(20px, 4.8vw, 30px);
@@ -185,6 +186,31 @@ body{
 }
 
 .sunflower{ font-size:clamp(64px, 12.5vw, 104px); }
+
+/* ✅ NEW: side images (pune / nanital / flower) */
+.sideImg{
+  position:absolute;
+  width:clamp(70px, 10vw, 120px);
+  height:auto;
+  z-index:4;                /* below envelope (5) */
+  pointer-events:none;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,.18));
+  animation: sideFloat 3s ease-in-out infinite;
+}
+.sideImg.s2{ animation-delay:.25s; }
+.sideImg.s3{ animation-delay:.55s; }
+
+.leftImg{ left: max(10px, calc(50% - 330px)); }   /* keeps it near envelope area */
+.rightImg{ right: max(10px, calc(50% - 330px)); }
+
+.punePos{ top:120px; }
+.nanitalPos{ bottom:80px; }
+.flowerPos{ top:210px; }
+
+@keyframes sideFloat{
+  0%,100%{ transform: translateY(0) rotate(-1deg); }
+  50%{ transform: translateY(-10px) rotate(1deg); }
+}
 
 /* Envelope */
 .envelope{
@@ -356,7 +382,7 @@ button{
   box-shadow: 0 10px 18px rgba(107,63,29,.10);
 }
 
-/* GIF */
+/* GIF (inside card) */
 .valImgWrap{
   display:none;
   margin-top:15px;
@@ -427,9 +453,13 @@ button{
   .musicBtn span{ display:none; }
   .head{ padding-left: 54px; padding-right: 54px; }
   .hsSideL, .hsSideR{ display:none; }
+
+  /* keep side images visible but tighter on mobile */
+  .leftImg{ left:10px; }
+  .rightImg{ right:10px; }
 }
 
-/* ✅ NEW: After YES, hide envelope + show large GIF */
+/* After YES, hide envelope + show large GIF */
 .envelope.hidden{ display:none; }
 
 .gifStage{
@@ -440,9 +470,7 @@ button{
   text-align:center;
   z-index:6;
 }
-
 .gifStage.show{ display:block; }
-
 
 .bigGif{
   width:min(460px, 82vw);
@@ -451,14 +479,11 @@ button{
   /* ✅ remove boundary/frame */
   border: none !important;
   box-shadow: none !important;
-
-  /* optional: if you want sharp edge */
   border-radius: 0 !important;
 
   display:block;
   margin: 0 auto;
 }
-
 
 .gifClose{
   position:relative;
@@ -505,12 +530,18 @@ button{
   </div>
 
   <div class="stage">
+    <!-- 🌻 existing sunflower emojis -->
     <div class="flower sunflower s1" style="left:-18px; top:66px;">🌻</div>
     <div class="flower sunflower s2" style="right:-28px; top:86px;">🌻</div>
     <div class="flower sunflower s3" style="left:22px; bottom:14px;">🌻</div>
     <div class="flower sunflower s4" style="right:22px; bottom:14px;">🌻</div>
     <div class="flower sunflower s5" style="left:10px; top:210px; font-size:clamp(52px, 11vw, 92px);">🌻</div>
     <div class="flower sunflower s6" style="right:10px; top:218px; font-size:clamp(52px, 11vw, 92px);">🌻</div>
+
+    <!-- ✅ NEW: side images (put these files in same folder) -->
+    <img src="pune.png" class="sideImg leftImg punePos" alt="pune">
+    <img src="nanital.png" class="sideImg leftImg nanitalPos s2" alt="nanital">
+    <img src="flower.png" class="sideImg rightImg flowerPos s3" alt="flower">
 
     <div class="envelope" id="envelope">
       <div class="flap" id="flap"></div>
@@ -534,7 +565,7 @@ button{
       </div>
     </div>
 
-    <!-- ✅ NEW: Fullscreen-ish GIF stage -->
+    <!-- Fullscreen-ish GIF stage -->
     <div class="gifStage" id="gifStage">
       <div class="gifMsg" id="gifMsg">As if NO wasn’t an option 🤭💕</div>
       <img src="Run Hugs Sticker - Run Hugs Miss You - Discover & Share GIFs.gif" alt="Big Valentine GIF" class="bigGif" id="bigGif">
@@ -559,7 +590,6 @@ const valImgWrap = document.getElementById("valImgWrap");
 const floatLayer = document.getElementById("floatLayer");
 const burst = document.getElementById("burst");
 
-/* ✅ NEW elements */
 const gifStage = document.getElementById("gifStage");
 const gifClose = document.getElementById("gifClose");
 
