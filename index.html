@@ -436,13 +436,22 @@ button{
 
 .gifStage.show{ display:block; }
 
+
 .bigGif{
   width:min(460px, 82vw);
   max-width:460px;
-  border-radius:22px;
-  box-shadow:0 18px 40px rgba(107,63,29,.22);
-  border:3px solid rgba(244,180,0,.35);
+
+  /* ✅ remove boundary/frame */
+  border: none !important;
+  box-shadow: none !important;
+
+  /* optional: if you want sharp edge */
+  border-radius: 0 !important;
+
+  display:block;
+  margin: 0 auto;
 }
+
 
 .gifClose{
   position:relative;
