@@ -433,13 +433,27 @@ background:#c8c8c8;
 .envelope.hidden{ display:none; }
 
 .gifStage{
-display:none;
-width:min(720px, 94vw);
-margin: 10px auto 0;
-padding: 14px 12px 18px;
-text-align:center;
-z-index:6;
+  display:none;
+  width:min(720px, 94vw);
+  margin: 10px auto 0;
+  padding: 14px 12px 18px;
+  text-align:center;
+  z-index:6;
+
+  /* force vertical stack */
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
+.gifStage.show{ display:flex; }   /* important: flex, not block */
+
+.gifClose{
+  position:relative;
+  display:none;
+  margin:0;                      /* handled by gap now */
+}
+.gifClose.show{ display:inline-block; }
+
 
 .gifStage.show{ display:block; }
 
